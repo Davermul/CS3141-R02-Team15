@@ -12,12 +12,8 @@ public class Blackjack extends Deck {
         System.out.println("Player 1 New Shuffle");
         dealer.printDeck(player.deck);
         System.out.println();
-        dealer.drawCard(player);
-        System.out.println("Hand after 1 card drawn: ");
-        player.printHand(player.hand);
-        System.out.println("Value of Hand: "+dealer.handValue(player.hand));
-        dealer.drawCard(player);
-        System.out.println("\nHand after 2 card drawn: ");
+        dealer.drawStart(player);
+        System.out.println("Hand after 2 card drawn: ");
         player.printHand(player.hand);
         System.out.println("Value of Hand: "+dealer.handValue(player.hand));
         dealer.drawCard(player);
@@ -32,11 +28,7 @@ public class Blackjack extends Deck {
         System.out.println("Player 2 New Shuffle");
         dealer.printDeck(player2.deck);
         System.out.println();
-        dealer.drawCard(player2);
-        System.out.println("Hand after 1 card drawn: ");
-        player.printHand(player2.hand);
-        System.out.println("Value of Hand: "+dealer.handValue(player2.hand));
-        dealer.drawCard(player2);
+        dealer.drawStart(player2);
         System.out.println("\nHand after 2 card drawn: ");
         player.printHand(player2.hand);
         System.out.println("Value of Hand: "+dealer.handValue(player2.hand));
