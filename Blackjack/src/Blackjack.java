@@ -100,6 +100,11 @@ public class Blackjack extends Deck {
                         dealer.drawCard(dealer, deck);
 
                         //System.out.println("After Card Drawn, Dealer Value: " + handValue(dealer.hand) + " Player Value: " + value);
+                        if(handValue(dealer.hand)>=17 && handValue(players[0].hand)>handValue(dealer.hand))
+                        {
+                            table[0]="Won";
+
+                        }
                         if (handValue(dealer.hand) > value && handValue(dealer.hand) <= 21)
                             table[0] = "Lost";
                         else if (handValue(dealer.hand) > value && handValue(dealer.hand) > 21)
@@ -115,8 +120,14 @@ public class Blackjack extends Deck {
                         table[0] = "Won";
                 }
             }
+            System.out.println("Dealer's Final Hand");
+            dealer.printHand(dealer.hand);
+            System.out.println("Dealer's Hand Value: "+ handValue(dealer.hand));
+
             for (int i = 0; i < playerCount; i++) {
+                System.out.println("Player " +(i+1) +"'s Hand");
                 dealer.printHand(players[i].hand);
+                System.out.println("Player " +(i+1) +"'s Hand Value: "+handValue(players[i].hand));
                 System.out.println("Player " + (i + 1) + ":" + table[i]);
             }
         }
