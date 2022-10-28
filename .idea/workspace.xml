@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="31b82b5b-8851-466c-a6e7-9e8a683f8b5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Blackjack/src/Blackjack.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blackjack/src/Dealer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blackjack/src/Deck.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blackjack/src/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blackjack/src/Room.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Fx3qpKYVC2DQC8YzuFkGHyGsvD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="CS3141-R02-Team15" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="CS3141-R02-Team15" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="31b82b5b-8851-466c-a6e7-9e8a683f8b5f" name="Changes" comment="" />
+      <created>1665420100160</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665420100160</updated>
+      <workItem from="1665420102163" duration="527000" />
+      <workItem from="1665590640887" duration="1694000" />
+      <workItem from="1666054140661" duration="373000" />
+      <workItem from="1666196903508" duration="55000" />
+      <workItem from="1666196973697" duration="31000" />
+      <workItem from="1666320293462" duration="358000" />
+      <workItem from="1666800563663" duration="365000" />
+      <workItem from="1666801404809" duration="1050000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
