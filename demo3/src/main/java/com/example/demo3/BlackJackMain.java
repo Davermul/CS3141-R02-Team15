@@ -18,45 +18,38 @@ public class BlackJackMain extends Application {
 
     private int playerCount;
     private Deck deck = new Deck();
-    private Dealer dealer = new Dealer();
-    private Player player = new Player();
+    private Player dealer;
+    private Player player ;
 
     private SimpleBooleanProperty playable = new SimpleBooleanProperty(false);
 
-    private HBox dealerCards = new HBox(30);
+    private HBox dealerCards = new HBox(50);
     private HBox playerCards = new HBox(30);
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
+    private Text endMessage= new Text("TEST\n");
 
     private Parent createStage(){
-        deck.shuffle(deck,52);
-        dealer.printDeck(deck);
-        dealer.drawCard(dealer,deck);
-        dealer.drawCard(dealer,deck);
-        player.drawCard(player,deck);
-        player.drawCard(player,deck);
-        dealer.printHand(player.hand);
-        dealer.printHand(dealer.hand);
-        System.out.println(dealer.handValue(player.hand));
+
+        dealer = new Player(dealerCards.getChildren());
+        player = new Player(playerCards.getChildren());
+
 
         Pane root = new Pane();
-        root.setPrefSize(800,600);
-
+        root.setPrefSize(1000,800);
         Region background = new Region();
-        background.setPrefSize(800,600);
+        background.setPrefSize(1000,800);
         background.setStyle("-fx-background-color: rgba(0,0,0,1)");
 
         HBox rootLayout = new HBox(5);
         rootLayout.setPadding(new Insets(5,5,5,5));
 
-        Rectangle left = new Rectangle(550,560);
+        Rectangle left = new Rectangle(650,760);
         left.setArcHeight(50);
         left.setArcWidth(50);
         left.setFill(Color.GREEN);
 
-        Rectangle right = new Rectangle(230,560);
+        Rectangle right = new Rectangle(330,760);
         right.setArcHeight(50);
         right.setArcWidth(50);
         right.setFill(Color.ORANGE);
@@ -64,13 +57,13 @@ public class BlackJackMain extends Application {
         //Left
         StackPane leftStack = new StackPane();
 
-        VBox leftVBox = new VBox(50);
+        VBox leftVBox = new VBox(70);
         leftVBox.setAlignment(Pos.TOP_CENTER);
 
         Text scoreDealer = new Text("'Dealer: ");
         Text scorePlayer = new Text("'Player: ");
 
-        leftVBox.getChildren().addAll(scoreDealer, dealerCards, playerCards, scorePlayer);
+        leftVBox.getChildren().addAll(scoreDealer,dealerCards,endMessage, playerCards ,scorePlayer);
         leftStack.getChildren().addAll(left, leftVBox);
 
         //Right
@@ -79,6 +72,7 @@ public class BlackJackMain extends Application {
         rightVbox.setAlignment(Pos.CENTER);
         Button btnBet = new Button("Bet");
         Button btnPlay = new Button("Play");
+        Button returnToHome = new Button("Return To Main Screen");
 
         Button btnHit = new Button("Hit");
         Button btnStand = new Button("Stand");
@@ -88,7 +82,8 @@ public class BlackJackMain extends Application {
         hitStandBox.getChildren().addAll(btnHit,btnStand);
 
 
-        rightVbox.getChildren().addAll(btnBet,btnPlay,hitStandBox);
+
+        rightVbox.getChildren().addAll(btnBet,btnPlay,hitStandBox,returnToHome);
         rightStack.getChildren().addAll(right,rightVbox);
 
         rootLayout.getChildren().addAll(leftStack,rightStack);
@@ -98,22 +93,88 @@ public class BlackJackMain extends Application {
         btnHit.disableProperty().bind(playable.not());
         btnStand.disableProperty().bind(playable.not());
 
-        scorePlayer.textProperty().bind(new SimpleStringProperty("Player: ").concat(player.handValue(player.hand)));
-        scoreDealer.textProperty().bind(new SimpleStringProperty("Dealer: ").concat(dealer.handValue(dealer.hand)));
+        scorePlayer.textProperty().bind(new SimpleStringProperty("Player: ").concat(player.getHandValue()));
+        scoreDealer.textProperty().bind(new SimpleStringProperty("Dealer: ").concat(dealer.getHandValue()));
 
-        
+        player.getHandValue().addListener((obs, old, newValue)-> {
+           if (newValue.intValue()>=21){
+               endGame();
+           }
+        });
+
+        dealer.getHandValue().addListener((obs, old, newValue)-> {
+            if (newValue.intValue()>=21){
+                endGame();
+            }
+        });
+
+        btnPlay.setOnAction(event-> {
+            startNewGame();
+        });
+
+        btnHit.setOnAction(event-> {
+            player.takeCard(deck.drawCard());
+        });
+
+        btnStand.setOnAction(event-> {
+            while (dealer.getHandValue().get()<17){
+                dealer.takeCard(deck.drawCard());
+            }
+
+            endGame();
+        });
+
         return root;
+    }
+
+    private void startNewGame(){
+        playable.set(true);
+        endMessage.setText("TEST \n");
+        deck.stack();
+        dealer.reset();
+        player.reset();
+
+        player.takeCard(deck.drawCard());
+        player.takeCard(deck.drawCard());
+        dealer.takeCard(deck.drawCard());
+
+    }
+
+    private void endGame() {
+        playable.set(false);
+        int dealerValue = dealer.getHandValue().getValue();
+        int playerValue = player.getHandValue().getValue();
+
+        String gameResult = "Results of Game: Dealer " + dealerValue + ", Player " + playerValue + "\n";
+        String winner;
+
+        //Checking Who won, Order is important
+        if (dealerValue == 21 || playerValue>21 || dealerValue==playerValue || (dealerValue<21 && dealerValue > playerValue)){
+            winner = "Winner is DEALER!";
+        }
+        else if (playerValue ==21 || dealerValue>21 || playerValue>dealerValue) {
+            winner = "Winner is PLAYER!";
+        }
+        else {
+            winner = "something went wrong";
+        }
+
+        endMessage.setText(gameResult + winner);
+
     }
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createStage()));
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(600);
+        primaryStage.setWidth(1000);
+        primaryStage.setHeight(800);
         primaryStage.setResizable(false);
         primaryStage.setTitle("BlackJack");
         primaryStage.show();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }
