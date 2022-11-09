@@ -21,74 +21,75 @@ public class Menu extends Application {
     public void start (Stage primaryStage) {
 
     AtomicBoolean sound_fx = new AtomicBoolean(false);
-    // Make the window a set size...
-    primaryStage.setResizable(false);
 
+
+
+    // Make the window a set size...
+        primaryStage.setResizable(false);
         VBox menuVBox = new VBox(50);
         menuVBox.setAlignment(Pos.CENTER);
 
 
-    Media menuMusic = new Media(new File("C:/Users/94744/Downloads/Spring-Flowers.mp3").toURI().toString());
+    // music and sound_fx location
+        String location = "C:\\Users\\94744";
+        Media menuMusic = new Media(new File(location+"\\Documents\\GitHub\\CS3141-R02-Team15\\Spring-Flowers.mp3").toURI().toString());
 
-    MediaPlayer menuPlayer = new MediaPlayer(menuMusic);
+    //sound_fx file came from
+    /**
+        String location1 = "C:/Users/94744";
+        Media card = new Media(new File(location1+"/Downloads/sound_dealingcard.wav").toURI().toString());
+    */
 
-    menuPlayer.setCycleCount(999999999);
-    menuPlayer.setVolume(0.5);
-    menuPlayer.setAutoPlay(true);
+    // music setting
+        MediaPlayer menuPlayer = new MediaPlayer(menuMusic);
+        menuPlayer.setCycleCount(999999999);
+        menuPlayer.setVolume(0.5);
+        menuPlayer.setAutoPlay(true);
+
+
+    // sound_fx setting
+    /**
+        MediaPlayer menuCard = new MediaPlayer(card);
+        menuCard.setCycleCount(999999999);
+        menuCard.setVolume(0.5);
+        menuCard.setAutoPlay(true);
+    */
 
 
 
     // Create music toggle button
-    ToggleButton musicButton = new ToggleButton("Music On/Off");
+        ToggleButton musicButton = new ToggleButton("Music On/Off");
 
-        musicButton.setOnAction(event -> {
-            if (musicButton.isSelected()) {
-                menuPlayer.pause();
-            }else {
-                menuPlayer.play();
-            }
-        });
+            musicButton.setOnAction(event -> {
+                if (musicButton.isSelected()) {
+                    menuPlayer.pause();
+                }else {
+                    menuPlayer.play();
+                }
+            });
 
-
-
-
-
-
-    // Add all nodes to the vbox pane and center it all
-    // Must be in order from top to bottom
 
 
     // New scene, place pane in it
-    Scene scene = new Scene(menuVBox, 630, 730);
+        Scene scene = new Scene(menuVBox, 630, 730);
 
     //create button dark model
-    MenuButton menuButton = new MenuButton("model");
-    CheckMenuItem checkMenuItem = new CheckMenuItem("Dark");
+        MenuButton menuButton = new MenuButton("model");
+        CheckMenuItem checkMenuItem = new CheckMenuItem("Dark");
 
-    checkMenuItem.setSelected(false);
+        checkMenuItem.setSelected(false);
 
-    checkMenuItem.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-        if (isSelected) {
-            scene.getRoot().setStyle("-fx-base:black");
-        } else {
-            scene.getRoot().setStyle("");
-        }
-    });
-        menuButton.getItems().add(checkMenuItem);
-
-
-
-        //sound_fx file came from
-        //Media card = new Media(new File("C:/Users/94744/Downloads/sound_dealingcard.wav").toURI().toString());
-
-        //MediaPlayer menuCard = new MediaPlayer(card);
-
-        //menuCard.setCycleCount(999999999);
-        //menuCard.setVolume(0.5);
-       // menuCard.setAutoPlay(true);
+        checkMenuItem.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                scene.getRoot().setStyle("-fx-base:black");
+            } else {
+                scene.getRoot().setStyle("");
+            }
+        });
+            menuButton.getItems().add(checkMenuItem);
 
 
-        //create button sound_fx button
+    //create button sound_fx button
 
         ToggleButton soundfx = new ToggleButton("soundfx On/Off");
 
@@ -96,17 +97,16 @@ public class Menu extends Application {
             if (soundfx.isSelected()&& sound_fx.get() ==false) {
                 sound_fx.set(true);
             }else if(soundfx.isSelected()&&sound_fx.get()==true)
-            {
-                sound_fx.set(false);
-            }
-
-
+                {
+                    sound_fx.set(false);
+                }
         });
 
 
+    // Add all nodes to the vbox pane and center it all
+    // Must be in order from top to bottom
 
-
-        //add button
+    //add button
         menuVBox.getChildren().add(musicButton);
         musicButton.setAlignment(Pos.CENTER);
 
