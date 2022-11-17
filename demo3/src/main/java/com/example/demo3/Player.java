@@ -57,6 +57,13 @@ public class Player{
         aces=0;
     }
 
+    public void setHand(ObservableList<Node> hand){
+        this.hand=hand;
+    }
+    public ObservableList<Node> getHand(){
+        return hand;
+    }
+
     public SimpleIntegerProperty getHandValue(){
         return handValue;
     }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="31b82b5b-8851-466c-a6e7-9e8a683f8b5f" name="Changes" comment="" />
+    <list default="true" id="31b82b5b-8851-466c-a6e7-9e8a683f8b5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,31 +37,6 @@
       <recent name="$PROJECT_DIR$/demo3/src/main/java/com/example/demo3" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="CS3141-R02-Team15" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="CS3141-R02-Team15" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -76,9 +53,9 @@
       <workItem from="1666320293462" duration="358000" />
       <workItem from="1666800563663" duration="365000" />
       <workItem from="1666801404809" duration="1050000" />
-      <workItem from="1666973504440" duration="1059000" />
-      <workItem from="1667445480202" duration="162000" />
-      <workItem from="1667450969594" duration="106000" />
+      <workItem from="1667451073706" duration="325000" />
+      <workItem from="1667574111323" duration="261000" />
+      <workItem from="1667574401313" duration="363000" />
     </task>
     <servers />
   </component>

@@ -11,8 +11,8 @@ public class ImagePatternCreator {
 
     public static ImagePattern createRectanglePattern() {
     	
-        final double width        = 12;
-        final double height       = 12;
+        final double width        = 8;
+        final double height       = 8;
         final Canvas canvas       = new Canvas(width, height);
         final GraphicsContext ctx = canvas.getGraphicsContext2D();
 
@@ -32,8 +32,8 @@ public class ImagePatternCreator {
     
     public static ImagePattern createDiamondPattern() {
     	
-        final double width        = 12;
-        final double height       = 12;
+        final double width        = 8;
+        final double height       = 8;
         final Canvas canvas       = new Canvas(width, height);
         final GraphicsContext ctx = canvas.getGraphicsContext2D();
 

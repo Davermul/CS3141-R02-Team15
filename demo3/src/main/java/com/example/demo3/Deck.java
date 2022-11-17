@@ -27,5 +27,20 @@ public class Deck{
             }
          return card;
         }
+
+    public int searchDealerDraw(){
+        Card card = null;
+        int index = 9999;
+        while (card == null) {
+            index = (int) (Math.random() * cards.length);
+            card = cards[index];
+        }
+        return index;
+    }
+
+    public Card dealerDraw(int index){
+        Card card = cards[index];
+        return card;
+    }
     }
 
