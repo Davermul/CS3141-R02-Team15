@@ -84,8 +84,8 @@ public class BlackJackMain extends Application {
             Text result;
             if (dealerHandValue>21 && playerHandValue<=21){result = new Text("Dealer Bust. Winner! Hand Value: "+playerHandValue);}
             else if(playerHandValue>dealerHandValue && playerHandValue <=21){result = new Text("Winner! Hand Value: "+playerHandValue );}
-            else if (playerHandValue == dealerHandValue) {result =new Text("Tie. Hand Value: " +playerHandValue);}
             else if(playerHandValue>21) {result = new Text("Bust. Hand Value: " +playerHandValue);}
+            else if (playerHandValue == dealerHandValue) {result =new Text("Tie. Hand Value: " +playerHandValue);}
             else {result=new Text("Loser. Hand Value: "+playerHandValue);}
 
             int s = player.getHand().size();
@@ -133,8 +133,8 @@ public class BlackJackMain extends Application {
     private Scene playerTransitionScene(Boolean bust, Boolean blackJack, Boolean morePlayers,HBox playercards){
         StackPane root = new StackPane();
         Scene scene = new Scene(root);
-        HBox outerBox = new HBox();
-        VBox innerBox = new VBox();
+        HBox outerBox = new HBox(15);
+        VBox innerBox = new VBox(15);
 
         outerBox.setAlignment(Pos.CENTER);
         innerBox.setAlignment(Pos.CENTER);
@@ -175,7 +175,7 @@ public class BlackJackMain extends Application {
                     new Stop(1, Color.DARKRED));
         }
         else if (blackJack && morePlayers){
-            Text blackJackMessage = new Text("BLACKJACK!!! \n PLease Pass to Next Player");
+            Text blackJackMessage = new Text("BLACKJACK!!! \n Please Pass to Next Player");
             Button nextPlayer = new Button("Next Player");
 
             innerBox.getChildren().addAll(playercards,blackJackMessage,nextPlayer);
@@ -240,7 +240,7 @@ public class BlackJackMain extends Application {
                     new Stop(1, Color.GREEN));
         }
         else if (!bust && !blackJack && morePlayers) {
-            Text blackJackMessage = new Text("Wait Until The End To See If You Won!!! \n PLease Pass to Next Player");
+            Text blackJackMessage = new Text("Wait Until The End To See If You Won!!! \n Please Pass to Next Player");
             Button nextPlayer = new Button("Next Player");
 
             innerBox.getChildren().addAll(playercards,blackJackMessage,nextPlayer);
