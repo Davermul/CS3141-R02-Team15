@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,58 +18,62 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.Node;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import static com.example.demo3.CardFaceCreator.createFrontFace;
 
 public class BlackJackMain extends Application {
-    private Stage stage;  //This is the stage that switches between the scenes of the game
-    private int playerCount = 1; //set to default of 1 and is changed depending on how many players are selected on the Main Menu Screen
-    private ArrayList<Player> players = new ArrayList<>(); //Arraylist of the game players
-    private ArrayList<Scene> playerScreens = new ArrayList<>(); //Holds each player's game scene
-    private Deck deck = new Deck(); //The card deck that the game is played off of
-    private int screensShown = 0; //A counter for how many of the player screens has been shown
-    ObservableList<Node> dealerHand = new HBox().getChildren(); //Empty hand of cards for dealer to be created
-    Player overallDealer = new Player(dealerHand); //Dealer for the players to compete against
-    Rectangle2D sceneBounds; // Automatically set to the max bounds of computer screen, Sets size of game screen
 
-    /**
-     * This Method creates the end result scene to show the end hands and which players won
-     * @return scene
-     */
-    private Scene resultsScreenCreator(){
-        /*
-            Scene Structure
-            StackPane root -> Hbox centerStructure -> Vbox displayCase -> up to 5 HBoxs, 1 for each player's hand and the dealer
-         */
+    private Stage stage;
+    private int playerCount = 1;
+    private ArrayList<Player> players = new ArrayList<>();
 
-        StackPane root = new StackPane();  //The outermost layer of the scene
-        Scene scene = new Scene(root);     //Creates Scene to be returned
-        HBox centerStructure =new HBox();  //Hbox is purely for allignment and contains the Vbox that has all of the player's hands
-        centerStructure.setAlignment(Pos.CENTER);
+    private ArrayList<Scene> playerScreens = new ArrayList<>();
 
-        VBox displayCase = new VBox(10); //This Vbox contains all of the player's hands as well as if they won
+    private Deck deck = new Deck();
+
+
+    private int screensShown = 0;
+    ObservableList<Node> dealerHand = new HBox().getChildren();
+    Player overallDealer = new Player(dealerHand);
+
+    Rectangle2D sceneBounds;
+
+    //private SimpleBooleanProperty playable = new SimpleBooleanProperty(false);
+
+    private Scene resultsScreencreator(){
+        StackPane root = new StackPane();
+        Scene scene = new Scene(root);
+        HBox centerstructure =new HBox();
+        centerstructure.setAlignment(Pos.CENTER);
+
+        VBox displayCase = new VBox(10);
         displayCase.setAlignment(Pos.CENTER);
 
-        while(overallDealer.getHandValue().intValue()<17){overallDealer.takeCard(deck.drawCard());} //Up until this point the dealer has only been delt the one card to begin with, now that all the players have gone the dealer will draw untill his hand value is 17 or greater
+        while(overallDealer.getHandValue().intValue()<17){
+            overallDealer.takeCard(deck.drawCard());
+        }
         int dealerHandValue = overallDealer.getHandValue().intValue();
-
-        HBox dealercards = new HBox(10);  //This is a Hbox to display the dealers final hand
+        //System.out.println(overallDealer.getHand().size() + ": SIZE......VALUE :"+ overallDealer.getHandValue());
+        HBox dealercards = new HBox(10);
         Text dealerlabel = new Text("Dealer:");
         dealercards.getChildren().add(dealerlabel);
         int j = overallDealer.getHand().size();
-
-        for (int i=j-1; i>=0; i--) {
+        for (int i=j-1; i>=0; i--)
+        {
+            //System.out.println("LOOP\n");
+            //overallDealer.getHand().get(i);
             dealercards.getChildren().add(overallDealer.getHand().get(i));
-        } //This for loop adds all of the dealers cards to the dealercards Hbox
+        }
         Text dealhandvalue = new Text("Dealer Hand Value: "+dealerHandValue);
-        dealercards.getChildren().add(dealhandvalue); // Adds the final dealer cards value to be displayed
-
-        displayCase.getChildren().add(dealercards); //Adds Dealercards to the outer VBox displayCase to be displayed
+        dealercards.getChildren().add(dealhandvalue);
+        displayCase.getChildren().add(dealercards);
 
         int d =1;
         for (Player player: players) {
@@ -86,15 +91,17 @@ public class BlackJackMain extends Application {
             int s = player.getHand().size();
             for (int i=s-1; i>=0; i--)
             {
+                //System.out.println("LOOP\n");
+                //overallDealer.getHand().get(i);
                 playerCards.getChildren().add(player.getHand().get(i));
             }
             playerCards.getChildren().addAll(result);
             displayCase.getChildren().addAll(playerCards);
             d++;
-        } //This loop creates an hBox for each player's hand and adds the players cards to it, then it adds the Hbox to the Vbox display case.
+        }
 
-        Button returnToMenu = new Button("Return to Main Menu"); //Button to start game over and return to Main Menu scene
-        returnToMenu.setOnAction(event -> {  //This resets all the game counters and returns to main menu
+        Button returnToMenu = new Button("Return to Main Menu");
+        returnToMenu.setOnAction(event -> {
             playerCount =1;
             players.clear();
             playerScreens.clear();
@@ -106,11 +113,8 @@ public class BlackJackMain extends Application {
 
         });
         displayCase.getChildren().add(returnToMenu);
-
-
-        centerStructure.getChildren().addAll(displayCase); //adds displayCase to centerStructure
-        root.getChildren().add(centerStructure); //adds centerStructure to root stackPane
-
+        centerstructure.getChildren().addAll(displayCase);
+        root.getChildren().add(centerstructure);
         RadialGradient scheme= new RadialGradient(0,
                 0.3,
                 sceneBounds.getWidth()/2,
@@ -123,29 +127,17 @@ public class BlackJackMain extends Application {
 
         root.setBackground(Background.EMPTY);
         scene.setFill(scheme);
-        return scene;  //Returns the result scene to be displayed
+        return scene;
     }
 
-    /**
-     * This method creates the scene that is displayed inbetween players, it displays the players final hand and the value of their hand.
-     * @param bust a boolean, true means player was over 21, false player was under 21
-     * @param blackJack a boolean, true means player scored a perfect 21
-     * @param morePlayers a boolean, true means there are still more players to go before the result screen
-     * @param playercards the hBox that contains the players final hand to be displayed
-     * @return Scene to be displayed between players
-     */
     private Scene playerTransitionScene(Boolean bust, Boolean blackJack, Boolean morePlayers,HBox playercards){
-        /*
-            Scene Structure
-            StackPane root -> Hbox outerbox -> VBox innerBox -> Hbox playerDards
-         */
         StackPane root = new StackPane();
-        Scene scene = new Scene(root);   //Scene to be returned
+        Scene scene = new Scene(root);
         HBox outerBox = new HBox(15);
         VBox innerBox = new VBox(15);
+
         outerBox.setAlignment(Pos.CENTER);
         innerBox.setAlignment(Pos.CENTER);
-
         RadialGradient scheme= new RadialGradient(0,
                 0.3,
                 sceneBounds.getWidth()/2,
@@ -182,9 +174,6 @@ public class BlackJackMain extends Application {
                     new Stop(0, Color.RED),
                     new Stop(1, Color.DARKRED));
         }
-        /*
-            This creates the scene if the player has a blackjack and there are more players left
-         */
         else if (blackJack && morePlayers){
             Text blackJackMessage = new Text("BLACKJACK!!! \n Please Pass to Next Player");
             Button nextPlayer = new Button("Next Player");
@@ -208,9 +197,6 @@ public class BlackJackMain extends Application {
                     new Stop(0, Color.LIMEGREEN),
                     new Stop(1, Color.GREEN));
         }
-        /*
-            This creates the scene if the player bust and there are no more players left
-         */
         else if (bust && !morePlayers) {
             Text bustMeseeage = new Text("You Bust, Click to see Results");
             Button results = new Button("Results");
@@ -219,7 +205,7 @@ public class BlackJackMain extends Application {
             outerBox.getChildren().addAll(innerBox);
 
             results.setOnAction(event -> {
-                switchScenes(resultsScreenCreator());
+                switchScenes(resultsScreencreator());
             });
 
             scheme= new RadialGradient(0,
@@ -232,9 +218,6 @@ public class BlackJackMain extends Application {
                     new Stop(0, Color.RED),
                     new Stop(1, Color.DARKRED));
         }
-        /*
-            This creates the scene if the player has a blackjack and there are no more players left
-         */
         else if (blackJack  && !morePlayers) {
             Text blackJackmessage = new Text("BLACKJACK!!!!\nClick to see Results");
             Button results = new Button("Results");
@@ -243,7 +226,7 @@ public class BlackJackMain extends Application {
             outerBox.getChildren().addAll(innerBox);
 
             results.setOnAction(event -> {
-                switchScenes(resultsScreenCreator());
+                switchScenes(resultsScreencreator());
             });
 
             scheme= new RadialGradient(0,
@@ -256,9 +239,6 @@ public class BlackJackMain extends Application {
                     new Stop(0, Color.LIMEGREEN),
                     new Stop(1, Color.GREEN));
         }
-        /*
-            This creates the scene if the player has a score below 21 and there are more players left
-         */
         else if (!bust && !blackJack && morePlayers) {
             Text blackJackMessage = new Text("Wait Until The End To See If You Won!!! \n Please Pass to Next Player");
             Button nextPlayer = new Button("Next Player");
@@ -282,9 +262,6 @@ public class BlackJackMain extends Application {
                     new Stop(0, Color.LIMEGREEN),
                     new Stop(1, Color.GREEN));
         }
-        /*
-            This creates the scene if the player has a score below 21 and there are no more players left
-         */
         else if (!bust && !blackJack && !morePlayers) {
             Text blackJackmessage = new Text("Click to see Results");
             Button results = new Button("Results");
@@ -293,7 +270,7 @@ public class BlackJackMain extends Application {
             outerBox.getChildren().addAll(innerBox);
 
             results.setOnAction(event -> {
-                switchScenes(resultsScreenCreator());
+                switchScenes(resultsScreencreator());
             });
 
             scheme= new RadialGradient(0,
@@ -310,73 +287,87 @@ public class BlackJackMain extends Application {
 
 
 
-        root.getChildren().addAll(outerBox); //adds outerBox to root
+        root.getChildren().addAll(outerBox);
         root.setBackground(Background.EMPTY);
         scene.setFill(scheme);
 
-        return scene; //returns scene
+        return scene;
     }
-
-    /**
-     * This method is called with no parameters and a void return and is only called upon clicking play on the main menu screen. It creates all of the player objects depending on how many are playing and adds
-     * them to the player arraylist
-     */
-    private void initializesPlayers(){
+    private void intializePlayers(){
+        System.out.println(playerCount);
+        System.out.println("\nPlayers size: "+players.size());
+        System.out.println("Screens Shown"+screensShown);
         for (int i=0;i<playerCount; i++){
             Player player = new Player(null);
+            Player dealer = new Player(null);
+
             players.add(player);
         }
-        deck.stack(); //Also initializes the deck
+        System.out.println("\nPlayers size: "+players.size());
+        deck.stack();
     }
 
-    /**
-     * This method creates the MainMenu Scene
-     * @return Scene
-     */
     private Scene createMainScreen(){
-        /*
-            Scene Structure
-            StackPane root -> Hbox outerBox -> VBox innerBox -> BlackJack image, PlayButton, player count selector, settings
-         */
 
         StackPane root = new StackPane();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 800, 630);
 
         HBox outerBox = new HBox();
         VBox innerBox = new VBox(20);
 
-        Button playButton = new Button(); //PlayButton and formatting
+        Button playButton = new Button();
         Button settings = new Button("Settings");
+        settings.setOnMouseClicked((e)-> {
+            Menu m = new Menu(scene);
+            try {
+                m.start(stage);
+            } catch (FileNotFoundException ex)
+            {
+            }
+        });
         playButton.setBackground(Background.EMPTY);
 
-        Image play = new Image("playbutton.png");
+        Image play = new Image("C:\\Users\\94744\\Documents\\GitHub\\CS3141-R02-Team15\\demo3\\src\\main\\resources\\playbutton.png");
         ImageView playV = new ImageView(play);
         playButton.setGraphic(playV);
-        playV.setFitHeight(75);
+        playV.setFitHeight(70);
         playV.setFitWidth(175);
 
-        //Upon pressing play the menuToPlayers method is called, essentially staring the game
         playButton.setOnAction(event-> {
             menuToPlayers();
         });
 
 
-        Image blkjk = new Image("blackjacktitle.png");  //BlackJack image and formating
+
+
+
+        Image blkjk = new Image("C:/Users/94744/Documents/GitHub/CS3141-R02-Team15/demo3/src/main/resources/blackjacktitle.png");
         ImageView view = new ImageView(blkjk);
         view.setFitHeight(200);
         view.setFitWidth(250);
 
-        settings.setStyle("-fx-background-color: #ffed00"); //Settings Button and formatting
+        settings.setStyle("-fx-background-color: #ffed00");
 
 
-        ChoiceBox<Integer> numPlayers = new ChoiceBox<Integer>(); //Number of Players and formatting
+        ChoiceBox<Integer> numPlayers = new ChoiceBox<Integer>();
+
         numPlayers.getItems().addAll(1,2,3,4);
+
         numPlayers.setStyle("-fx-background-color: #ffed00");
-        numPlayers.setValue(1); //default number of players is 1
 
         numPlayers.setOnAction(event ->{
             playerCount= numPlayers.getValue();
-        }); //This sets the numOfPlayers variable to the amount selected on the MainMenu
+        });
+
+        innerBox.getChildren().addAll(view,playButton,settings,numPlayers);
+
+        outerBox.getChildren().add(innerBox);
+
+        innerBox.setAlignment(Pos.CENTER);
+        outerBox.setAlignment(Pos.CENTER);
+
+        numPlayers.setValue(1);
+        root.getChildren().addAll(outerBox);
 
         RadialGradient gradient1 = new RadialGradient(0,
                 0.3,
@@ -388,39 +379,18 @@ public class BlackJackMain extends Application {
                 new Stop(0, Color.LIMEGREEN),
                 new Stop(1, Color.DARKGREEN));
         root.setBackground(Background.EMPTY);
-
-        innerBox.getChildren().addAll(view,playButton,settings,numPlayers);
-        outerBox.getChildren().add(innerBox);
-        innerBox.setAlignment(Pos.CENTER);
-        outerBox.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(outerBox);
         scene.setFill(gradient1);
-        return scene; // Return the scene to be displayed
+        return scene;
     }
-
-    /**
-     * This method creates a scene for an individual player that shows the dealer's starting card and the players cards. This is also the scene where each player chooses to hit or stand
-     * @param player The player the scene is for
-     * @param dealercard The starting Dealer's card
-     * @param dealerCardFace a visual node of the dealers staring card to be displayed
-     * @return Parent root
-     */
-    private Parent createPlayerStage(Player player, Card dealercard, Node dealerCardFace){
-        /*
-            Scene Structure
-            Pane root -> Hbox rootLayout -> rectangleLeft -> StackPane leftStack -> Vbox leftVbox -> scoreDealer,dealerCards,view, playerCards ,scorePlayer
-                                         -> rectangleRight -> StackPane rightStack -> VBox rightVbox -> topDeco,btnBet,hitStandBox,returnToHome,bottomDeco
-         */
-        HBox playerCards = new HBox(30);  //Hbox to display players cards
+    private Parent createStage(Player player,Card dealercard,Node dealerCardFace){
+        HBox playerCards = new HBox(30);
         playerCards.setAlignment(Pos.CENTER);
-
-        HBox dealerCards = new HBox(30); //Hbox to display dealers starting card
+        HBox dealerCards = new HBox(30);
         dealerCards.setAlignment(Pos.CENTER);
+        player.setHand(playerCards.getChildren());
+        dealerCards.getChildren().add(dealerCardFace);
 
-        player.setHand(playerCards.getChildren()); //This makes the Hbox update everytime player draws card
-        dealerCards.getChildren().add(dealerCardFace); //Adds dealers staring card to Hbox
-
-        Pane root = new Pane();  //root pane and formatting
+        Pane root = new Pane();
         root.setPrefSize(sceneBounds.getWidth(),sceneBounds.getHeight());
         Region background = new Region();
         background.setPrefSize(sceneBounds.getWidth(),sceneBounds.getHeight());
@@ -463,7 +433,9 @@ public class BlackJackMain extends Application {
 
         //Left
         StackPane leftStack = new StackPane();
-        VBox leftVBox = new VBox(30);
+
+
+        VBox leftVBox = new VBox(50);
         leftVBox.setAlignment(Pos.CENTER);
 
         Image blkjk = new Image("blackjacktitle.png");
@@ -477,6 +449,8 @@ public class BlackJackMain extends Application {
         leftVBox.getChildren().addAll(scoreDealer,dealerCards,view, playerCards ,scorePlayer);
         leftStack.getChildren().addAll(left, leftVBox);
 
+        //Right
+
         /*
         Outlines for Debugging Right VBoxes
 
@@ -489,29 +463,27 @@ public class BlackJackMain extends Application {
                 "-fx-border-insets: 5;\n" +
                 "-fx-border-width: 3;\n" +
                 "-fx-border-style: dashed;\n";
-        */
 
-        //right  (Commented out lines are for debugging )
+         */
+
         StackPane rightStack = new StackPane();
         rightStack.setPrefSize(sceneBounds.getWidth()/3-10,sceneBounds.getHeight()-45);
         VBox rightVbox = new VBox(90);  //125 for presentation
         rightVbox.setAlignment(Pos.CENTER);
         //rightVbox.setStyle(cssLayout1);
+        Button btnBet = new Button("Bet");
+        //Button btnPlay = new Button("Play");
+        Button returnToHome = new Button("Return To Main Screen");
 
-
-        Button btnBet = new Button("Bet"); //Bet Button
-
-        Button returnToHome = new Button("Return To Main Screen"); //Return to Home button
-
-        HBox topDeco = new HBox(sceneBounds.getWidth()/3-270); //Top decoration cards
+        HBox topDeco = new HBox(sceneBounds.getWidth()/3-270);
         topDeco.setAlignment(Pos.TOP_CENTER);
         //topDeco.setStyle(cssLayout1);
 
-        HBox bottomDeco = new HBox(sceneBounds.getWidth()/3-270); //Bottom decoration cards
+        HBox bottomDeco = new HBox(sceneBounds.getWidth()/3-270);
         bottomDeco.setAlignment(Pos.BOTTOM_CENTER);
         //bottomDeco.setStyle(cssLayout);
 
-        //Start of card decorations on right-hand side
+
         VBox tright = new VBox();
         VBox tleft = new VBox();
         VBox bright = new VBox();
@@ -529,29 +501,30 @@ public class BlackJackMain extends Application {
 
         topDeco.getChildren().addAll(tleft,tright);
         bottomDeco.getChildren().addAll(bleft,bright);
-        //End of card decorations on right-hand side
 
 
-        Button btnHit = new Button("Hit"); //Hit Button
-        Button btnStand = new Button("Stand");//Stand Button
+        Button btnHit = new Button("Hit");
+        Button btnStand = new Button("Stand");
 
         HBox hitStandBox = new HBox(15);
         hitStandBox.setAlignment(Pos.CENTER);
         hitStandBox.getChildren().addAll(btnHit,btnStand);
 
 
+
         rightVbox.getChildren().addAll(topDeco,btnBet,hitStandBox,returnToHome,bottomDeco);
         rightStack.getChildren().addAll(right,rightVbox);
 
-        rootLayout.getChildren().addAll(leftStack,rightStack); //add all of the structure to the pane
+        rootLayout.getChildren().addAll(leftStack,rightStack);
         root.getChildren().addAll(background,rootLayout);
 
+        //btnPlay.disableProperty().bind(playable);
+        //btnHit.disableProperty().bind(playable.not());
+        // btnStand.disableProperty().bind(playable.not());
 
+        scorePlayer.textProperty().bind(new SimpleStringProperty("Player: ").concat(player.getHandValue()));
+        scoreDealer.textProperty().bind(new SimpleStringProperty("Dealer: ").concat(dealercard.value));
 
-        scorePlayer.textProperty().bind(new SimpleStringProperty("Player: ").concat(player.getHandValue())); //Formats the display of the players hand value
-        scoreDealer.textProperty().bind(new SimpleStringProperty("Dealer: ").concat(dealercard.value));      //Formats the display of the Dealers hand value
-
-        //This listener switches to the transition scene when ever the players hand reaches 21 or above
         player.getHandValue().addListener((obs, old, newValue)-> {
 
             if (newValue.intValue()>21 && screensShown < playerCount){
@@ -572,12 +545,10 @@ public class BlackJackMain extends Application {
             }
         });
 
-        //Draws a card for the player
         btnHit.setOnAction(event-> {
             player.takeCard(deck.drawCard());
         });
 
-        //Ends the players turn and switches to the transition scene when pressed
         btnStand.setOnAction(event-> {
             if (screensShown<playerCount){
                 switchScenes(playerTransitionScene(false,false,true,playerCards));
@@ -586,73 +557,51 @@ public class BlackJackMain extends Application {
                 switchScenes(playerTransitionScene(false,false,false,playerCards));
             }
         });
-        return root; //returns the scene to be displayed
+        return root;
     }
 
-    /**
-     * This Method switches the displayed scene to the scene that is passed in
-     * @param scene the scene to be displayed
-     */
     public void switchScenes(Scene scene) {
-        if (screensShown==0 ){stage.setTitle("Main Menu");}
-        if (screensShown==playerCount){stage.setTitle("Results");}
-        else {stage.setTitle("Player: "+screensShown);}
+        stage.setTitle("Player: "+screensShown);
         stage.setScene(scene);
     }
-
-    /**
-     * This method draws 2 cards to start the players turn
-     * @param player player that needs to draw two cards
-     */
     private void startNewGame(Player player) {
         player.takeCard(deck.drawCard());
         player.takeCard(deck.drawCard());
     }
 
-    /**
-     * This Method starts the game off after play is pushed on the main Menu
-     */
     private void menuToPlayers(){
-        initializesPlayers();   //creates the desired amount of player objects
-        overallDealer.takeCard(deck.drawCard());    //starts the dealer off with one card
-        Card dealerStartCard = (Card)overallDealer.getHand().get(0);
+        intializePlayers();
 
+        overallDealer.takeCard(deck.drawCard());
+        Card dealerStartCard = (Card)overallDealer.getHand().get(0);
 
         for(Player player : players ){
             Node cardface = createFrontFace(dealerStartCard.suit,dealerStartCard.rank,120,180);
-            Scene scene = new Scene(createPlayerStage(player,dealerStartCard,cardface));
+            Scene scene = new Scene(createStage(player,dealerStartCard,cardface));
             playerScreens.add(scene);
-        } //Creates a sceen for each player and adds it to the PlayerScreens arraylist
-
+        }
         startNewGame(players.get(0));
         screensShown++;
         switchScenes(playerScreens.get(0));
-    }
 
-    /**
-     * Starts off program by displaying Main Menu
-     * @param primaryStage
-     */
+    }
     public void start(Stage primaryStage) {
-        //Sets variables to staring ammount
         playerCount = 0;
         stage=primaryStage;
-
-        //Gets screen size data
         Screen screen = Screen.getPrimary();
-        sceneBounds = screen.getVisualBounds();
+        sceneBounds = new Rectangle2D(0,0,800, 630);
+        //System.out.println(sceneBounds.getWidth() + "H: "+sceneBounds.getHeight() );
 
+        Scene mainMenu = createMainScreen();
 
-        Scene mainMenu = createMainScreen(); //Creates Main Menu Scene and formats it to screen size
         stage.setScene(mainMenu);
         stage.setX(sceneBounds.getMinX());
         stage.setY(sceneBounds.getMinY());
         stage.setWidth(sceneBounds.getWidth());
         stage.setHeight(sceneBounds.getHeight());
         stage.setResizable(false);
-
         stage.setTitle("Main Menu");
-        stage.show();   //Displays Main Menu
+        stage.show();
     }
 
     public static void main(String[] args) {

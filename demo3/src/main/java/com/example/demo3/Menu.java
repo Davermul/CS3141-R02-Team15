@@ -3,10 +3,7 @@ package com.example.demo3;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,8 +21,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 public class Menu extends Application {
 
+    Scene mainscene;
+    public Menu(Scene mainscene){
+        this.mainscene = mainscene;
+    }
     @Override
 
     public void start (Stage primaryStage) throws FileNotFoundException {
@@ -34,8 +36,10 @@ public class Menu extends Application {
 
 
 
+
     // Make the window a set size...
-        Image image = new Image(new FileInputStream("C:\\Users\\94744\\Downloads\\wp2180229.jpg"));
+        String imag_location = "C:\\Users\\94744";
+        Image image = new Image(new FileInputStream(imag_location+"\\Documents\\GitHub\\CS3141-R02-Team15\\wp2180229.jpg"));
         //Setting the image view
         ImageView imageView = new ImageView(image);
         ImageView imageView1 = new ImageView(image);
@@ -54,8 +58,8 @@ public class Menu extends Application {
         ScrollPane scrollPnae=new ScrollPane();
         scrollPnae.setContent(menuVBox);
         //setting the fit height and width of the image view
-        menuVBox.setMinWidth(790);
-        menuVBox.setMinHeight(617);
+        menuVBox.setMinWidth(800);
+        menuVBox.setMinHeight(630);
 
 
 
@@ -142,6 +146,18 @@ public class Menu extends Application {
                 }
         });
 
+        //back button
+        Button Back = new Button("Back");
+        Back.setOnMouseClicked((e)-> {
+
+            try {
+                primaryStage.setScene(mainscene);
+//                primaryStage.show();
+            } catch (Exception exception)
+            {
+            }
+        });
+
         //set background
         menuVBox.setBackground(new Background(new BackgroundImage(image,null,null,null,new BackgroundSize(800, 630, false, false,false,false))));
 
@@ -161,6 +177,10 @@ public class Menu extends Application {
         menuVBox.getChildren().add(soundfx);
         soundfx.setTranslateX(10);
         soundfx.setTranslateY(160);
+
+        menuVBox.getChildren().add(Back);
+        Back.setTranslateX(10);
+        Back.setTranslateY(180);
 
 
     // Place scene in stage
