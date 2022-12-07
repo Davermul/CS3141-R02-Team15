@@ -14,6 +14,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
@@ -23,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -31,6 +34,7 @@ import static com.example.demo3.CardFaceCreator.createFrontFace;
 public class BlackJackMain extends Application {
 
     private Stage stage;
+    MediaPlayer menuPlayer;
     private int playerCount = 1;
     private ArrayList<Player> players = new ArrayList<>();
 
@@ -318,7 +322,8 @@ public class BlackJackMain extends Application {
         Button playButton = new Button();
         Button settings = new Button("Settings");
         settings.setOnMouseClicked((e)-> {
-            Menu m = new Menu(scene);
+
+            Menu m = new Menu(scene, menuPlayer);
             try {
                 m.start(stage);
             } catch (FileNotFoundException ex)
@@ -589,18 +594,26 @@ public class BlackJackMain extends Application {
         playerCount = 0;
         stage=primaryStage;
         Screen screen = Screen.getPrimary();
-        sceneBounds = new Rectangle2D(0,0,800, 630);
+        sceneBounds = new Rectangle2D(primaryStage.getX(),primaryStage.getY(),primaryStage.getX()+primaryStage.getWidth(), primaryStage.getY()+primaryStage.getHeight());
         //System.out.println(sceneBounds.getWidth() + "H: "+sceneBounds.getHeight() );
 
         Scene mainMenu = createMainScreen();
+
 
         stage.setScene(mainMenu);
         stage.setX(sceneBounds.getMinX());
         stage.setY(sceneBounds.getMinY());
         stage.setWidth(sceneBounds.getWidth());
         stage.setHeight(sceneBounds.getHeight());
-        stage.setResizable(false);
         stage.setTitle("Main Menu");
+        String location = "C:\\Users\\94744";
+        Media menuMusic = new Media(new File(location+"\\Documents\\GitHub\\CS3141-R02-Team15\\Spring-Flowers.mp3").toURI().toString());
+
+        menuPlayer = new MediaPlayer(menuMusic);
+        menuPlayer.setCycleCount(999999999);
+        menuPlayer.setVolume(0.5);
+        menuPlayer.setAutoPlay(true);
+        stage.setResizable(true);
         stage.show();
     }
 

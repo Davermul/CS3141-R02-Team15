@@ -11,12 +11,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,8 +23,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Menu extends Application {
 
     Scene mainscene;
-    public Menu(Scene mainscene){
+    MediaPlayer menuPlayer;
+    public Menu(Scene mainscene, MediaPlayer menuPlayer){
         this.mainscene = mainscene;
+        this.menuPlayer = menuPlayer;
     }
     @Override
 
@@ -39,10 +39,11 @@ public class Menu extends Application {
 
     // Make the window a set size...
         String imag_location = "C:\\Users\\94744";
-        Image image = new Image(new FileInputStream(imag_location+"\\Documents\\GitHub\\CS3141-R02-Team15\\wp2180229.jpg"));
+        Image image = new Image(new FileInputStream(imag_location+"\\Documents\\GitHub\\CS3141-R02-Team15\\wp21802299.jpg"));
         //Setting the image view
         ImageView imageView = new ImageView(image);
         ImageView imageView1 = new ImageView(image);
+
 
         //creating ImageView for adding image
         imageView.setImage(image);
@@ -55,17 +56,18 @@ public class Menu extends Application {
         menuVBox.setAlignment(Pos.CENTER);
 
         //scroll pane for scrolling the images if we more width and height
-        ScrollPane scrollPnae=new ScrollPane();
-        scrollPnae.setContent(menuVBox);
+        ScrollPane scrollPane=new ScrollPane();
+        scrollPane.setContent(menuVBox);
         //setting the fit height and width of the image view
-        menuVBox.setMinWidth(800);
-        menuVBox.setMinHeight(630);
+        menuVBox.setMinWidth(1600);
+        menuVBox.setMinHeight(760);
+//
+//        menuVBox.autosize();
+//        menuVBox.autosize();
 
 
 
     // music and sound_fx location
-        String location = "C:\\Users\\94744";
-        Media menuMusic = new Media(new File(location+"\\Documents\\GitHub\\CS3141-R02-Team15\\Spring-Flowers.mp3").toURI().toString());
 
     //sound_fx file came from
     /**
@@ -74,10 +76,7 @@ public class Menu extends Application {
     */
 
     // music setting
-        MediaPlayer menuPlayer = new MediaPlayer(menuMusic);
-        menuPlayer.setCycleCount(999999999);
-        menuPlayer.setVolume(0.5);
-        menuPlayer.setAutoPlay(true);
+
 
 
     // sound_fx setting
@@ -102,7 +101,9 @@ public class Menu extends Application {
             });
 
      // New scene, place pane in it
-        Scene scene = new Scene(scrollPnae, 800, 630);
+        Scene scene = new Scene(scrollPane, 800, 630);
+        imageView.fitWidthProperty().bind(scene.widthProperty());
+
         scene.setFill(new ImagePattern(image));
 
     //create button dark model
@@ -158,7 +159,10 @@ public class Menu extends Application {
             }
         });
 
+
+
         //set background
+
         menuVBox.setBackground(new Background(new BackgroundImage(image,null,null,null,new BackgroundSize(800, 630, false, false,false,false))));
 
         //menuVBox.getChildren().add(imageView);
@@ -186,8 +190,8 @@ public class Menu extends Application {
     // Place scene in stage
         primaryStage.setTitle("-Menu-");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(true);
         primaryStage.show();
-        primaryStage.setResizable(false);
     }
     public static void main(String[] args) {
 
