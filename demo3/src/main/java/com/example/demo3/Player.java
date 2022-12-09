@@ -1,38 +1,38 @@
 package com.example.demo3;
 
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class Player{
     private ObservableList<Node> hand;
-
     private  int aces = 0;
-
     private SimpleIntegerProperty handValue = new SimpleIntegerProperty(0);
-    public int balance;
-    private int money;
+    private int balance;
+    private Integer betAmount;
+
+    private int playerNumber;
 
 
     public Player(ObservableList<Node> hand) {
         this.hand = hand;
         this.balance = 0;
-        this.money = 1000;
+        this.balance = 1000;
         this.aces = 0;
+        this.betAmount=0;
     }
 
-    public int getMoney() {
-        return money;
+    public int getBalance() {
+        return balance;
     }
 
-    public void setMoney(int money){
-        this.money = money;
+    public void setBalance(int money){
+        this.balance = money;
     }
+
+    public int getBetAmount() {return betAmount;}
+
+    public void setBetAmount(int betAmount) {this.betAmount=betAmount;}
 
     public void takeCard(Card card) {
         hand.add(card);
@@ -68,5 +68,9 @@ public class Player{
         return handValue;
     }
 
+    public void setHandValue(SimpleIntegerProperty handValue){this.handValue=handValue;}
+
+    public int getPlayerNumber(){return playerNumber;}
+    public void setPlayerNumber(int n){this.playerNumber=n;}
 }
 
